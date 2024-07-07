@@ -36,3 +36,13 @@ lerna-debug.log*
 
 # CHANGESET
 /.changeset/*.md
+
+# Enviroment Variable Files
+.env
+.env.*
+
+# Doc generated file
+tempbid-openapi-v1.json
+
+# Prisma auto generated schema
+/prisma/schema.prisma
