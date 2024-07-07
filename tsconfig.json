@@ -19,6 +19,23 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@mehrdadhub/locales/*": [
+        "./src/locales/*"
+      ],
+      "@mehrdadhub/auth": [
+        "./src/auth/decorators"
+      ],
+      "@mehrdadhub/providers": [
+        "./src/providers"
+      ],
+      "@mehrdadhub/types": [
+        "./src/common/types"
+      ],
+      "@mehrdadhub/common": [
+        "./src/common"
+      ]
+    }
   }
 }
