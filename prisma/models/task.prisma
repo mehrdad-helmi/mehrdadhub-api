@@ -1,0 +1,21 @@
+model Task {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String?
+  isDone      Boolean  @default(false)
+  imgUrl      String?
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // many to one relation with users
+  user   User @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId Int
+
+  // self-relation
+  parentTaskId Int?
+  parentTask   Task?  @relation("TaskHierarchy", fields: [parentTaskId], references: [id])
+  subTasks     Task[] @relation("TaskHierarchy")
+
+  @@map("tasks")
+}
