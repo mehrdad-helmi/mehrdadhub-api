@@ -81,12 +81,138 @@
 					}
 				]
 			}
+		},
+		"/task": {
+			"post": {
+				"operationId": "create",
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateTaskDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": ""
+					}
+				}
+			},
+			"get": {
+				"operationId": "findAll",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/task/{id}": {
+			"get": {
+				"operationId": "findOne",
+				"parameters": [
+					{
+						"name": "id",
+						"required": true,
+						"in": "path",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			},
+			"patch": {
+				"operationId": "update",
+				"parameters": [
+					{
+						"name": "id",
+						"required": true,
+						"in": "path",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateTaskDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			},
+			"delete": {
+				"operationId": "remove",
+				"parameters": [
+					{
+						"name": "id",
+						"required": true,
+						"in": "path",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/task/{id}/image": {
+			"patch": {
+				"operationId": "changeImage",
+				"parameters": [
+					{
+						"name": "id",
+						"required": true,
+						"in": "path",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ChangeImageDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				}
+			}
 		}
 	},
 	"info": {
 		"title": "MehrdadHub API",
 		"description": "This is documentation for MehrdadHub rest API service",
-		"version": "0.0.3",
+		"version": "0.1.0",
 		"contact": {}
 	},
 	"tags": [],
@@ -146,6 +272,46 @@
 					"email",
 					"password",
 					"displayName"
+				]
+			},
+			"CreateTaskDto": {
+				"type": "object",
+				"properties": {
+					"title": {
+						"type": "string",
+						"example": "My special task",
+						"description": "A proper name for the task",
+						"default": "New Task"
+					},
+					"description": {
+						"type": "string",
+						"example": "This is some description about my task",
+						"description": "A proper description for the task"
+					},
+					"color": {
+						"type": "string",
+						"example": "blue",
+						"description": "Color of the task card in UI (any proper CSS color format)"
+					}
+				},
+				"required": [
+					"title"
+				]
+			},
+			"UpdateTaskDto": {
+				"type": "object",
+				"properties": {}
+			},
+			"ChangeImageDto": {
+				"type": "object",
+				"properties": {
+					"imgUrl": {
+						"type": "string",
+						"description": "Url of the uploaded image"
+					}
+				},
+				"required": [
+					"imgUrl"
 				]
 			}
 		}

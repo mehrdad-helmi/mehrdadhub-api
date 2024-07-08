@@ -4,7 +4,8 @@
 		"OWNERSHIP_ERROR": "This entity is not belong to this user.",
 		"SUCCESS_GET": "The requested data has been retrieved successfully.",
 		"UNAUTHORIZED_ACCESS": "You are not authorized to access this resource with your current role.",
-		"USER_NOT_FOUND": "User not found!"
+		"USER_NOT_FOUND": "User not found!",
+		"NOT_FOUND": "Your requested data not found!"
 	},
 	"AUTH": {
 		"GENERIC": {
