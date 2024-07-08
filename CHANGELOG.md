@@ -1,5 +1,17 @@
 # mehrdadhub-api
 
+## 0.2.0
+
+### Minor Changes
+
+- Task model implemented
+  - create new task
+  - update a task
+  - delete a task
+  - get a single task
+  - get all owned tasks
+  - add image to a task
+
 ## 0.1.0
 
 ### Minor Changes
