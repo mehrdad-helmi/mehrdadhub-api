@@ -1,0 +1,10 @@
+{
+	"$schema": "./node_modules/@compodoc/compodoc/src/config/schema.json",
+	"tsconfig" : "tsconfig.json",
+	"name" : "MehrdadHub API documentation",
+	"open" : true,
+	"serve" : true,
+	"port" : 5051,
+	"theme" : "Postmark",
+	"watch" : true
+}

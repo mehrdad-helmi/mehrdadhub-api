@@ -1,0 +1,153 @@
+{
+	"openapi": "3.0.0",
+	"paths": {
+		"/connection-test": {
+			"get": {
+				"operationId": "connectionTest",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"Root"
+				]
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"operationId": "tempLogin",
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"Auth"
+				]
+			}
+		},
+		"/users/register": {
+			"post": {
+				"operationId": "register",
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegisterDto"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"User"
+				]
+			}
+		},
+		"/users/me": {
+			"get": {
+				"operationId": "getUser",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": ""
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [
+					{
+						"bearer": []
+					}
+				]
+			}
+		}
+	},
+	"info": {
+		"title": "MehrdadHub API",
+		"description": "This is documentation for MehrdadHub rest API service",
+		"version": "0.0.3",
+		"contact": {}
+	},
+	"tags": [],
+	"servers": [
+		{
+			"url": "http://localhost:5050/v0"
+		}
+	],
+	"components": {
+		"securitySchemes": {
+			"bearer": {
+				"scheme": "bearer",
+				"bearerFormat": "JWT",
+				"type": "http"
+			}
+		},
+		"schemas": {
+			"LoginDto": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "The email address of the user",
+						"example": "user@example.com"
+					},
+					"password": {
+						"type": "string",
+						"description": "The password for the user account"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				]
+			},
+			"RegisterDto": {
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "The email address of the user registering",
+						"example": "user@example.com"
+					},
+					"password": {
+						"type": "string",
+						"description": "The password for the user account",
+						"example": "yourStrong(!)Password",
+						"minLength": 8
+					},
+					"displayName": {
+						"type": "string",
+						"description": "Display name of the user",
+						"example": "John Doe"
+					}
+				},
+				"required": [
+					"email",
+					"password",
+					"displayName"
+				]
+			}
+		}
+	}
+}
