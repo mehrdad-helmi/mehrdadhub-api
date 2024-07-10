@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.2.1
+
+### Patch Changes
+
+- some minor refactor on registe dto location
+
 ## 0.2.0
 
 ### Minor Changes
