@@ -2,9 +2,9 @@ import { Payload, PublicRoute } from '@mehrdadhub/auth';
 import { ResponseMessage }      from '@mehrdadhub/common';
 import { MESSAGES }                           from '@mehrdadhub/locales/en';
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { ApiBearerAuth, ApiTags }      from '@nestjs/swagger';
-import { RegisterDto }                 from './register.dto';
-import { UserService } from './user.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { RegisterDto }            from './dto/register.dto';
+import { UserService }            from './user.service';
 
 @ApiTags('User')
 @Controller('users')

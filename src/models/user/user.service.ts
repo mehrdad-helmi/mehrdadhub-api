@@ -4,7 +4,7 @@ import { HashService }                   from '@mehrdadhub/providers';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User }                          from '@prisma/client';
 import { PrismaService } from 'nestjs-prisma';
-import { RegisterDto } from './register.dto';
+import { RegisterDto }   from './dto/register.dto';
 
 @Injectable()
 export class UserService {
