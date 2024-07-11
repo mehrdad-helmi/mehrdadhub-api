@@ -34,9 +34,6 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# CHANGESET
-/.changeset/*.md
-
 # Enviroment Variable Files
 .env
 .env.*
