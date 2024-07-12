@@ -1,5 +1,13 @@
 # mehrdadhub-api
 
+## 0.2.2
+
+### Patch Changes
+
+- 1e4b375: gitignore file edited
+- 1e4b375: github action edited
+- 0d9d968: some issue on github action solved
+
 ## 0.2.1
 
 ### Patch Changes
