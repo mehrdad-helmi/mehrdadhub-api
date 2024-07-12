@@ -1,5 +1,14 @@
 # mehrdadhub-api
 
+## 0.2.3
+
+### Patch Changes
+
+- 7dc6e61: gitignore file edited
+- 7dc6e61: github action edited
+- 7dc6e61: console.log removed
+- 7dc6e61: some issue on github action solved
+
 ## 0.2.2
 
 ### Patch Changes
