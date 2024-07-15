@@ -1,0 +1,16 @@
+Dockerfile
+.dockerignore
+node_modules
+npm-debug.log
+dist
+build
+logs
+documentation
+.changeset
+.github
+ci
+eslint.config.mjs
+.prettierrc
+CHANGELOG.md
+README.md
+docker-compose.yml

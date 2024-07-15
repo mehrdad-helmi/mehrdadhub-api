@@ -1,0 +1,54 @@
+name: Backend Develop and Release CI/CD
+
+on:
+  push:
+    branches:
+      - develop
+      - release-*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Create and publish a changeset
+        run: |
+          npx changeset version
+          git add .
+          git commit -m "Version Packages"
+          git push origin ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: docker build -t backend:staging .
+
+      - name: Log in to Docker Hub
+        run: echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
+
+      - name: Push Docker image to registry
+        run: docker tag backend:staging ${{ secrets.DOCKER_HUB_USERNAME }}/backend:staging && docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend:staging
+
+      - name: Deploy to Staging
+        run: ssh -i ~/.ssh/id_rsa ubuntu@staging-server 'cd ~/apps/backend && docker-compose pull && docker-compose up -d'
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+
+      - name: Tag and Push Production Image
+        run: |
+          docker tag ${{ secrets.DOCKER_HUB_USERNAME }}/backend:staging ${{ secrets.DOCKER_HUB_USERNAME }}/backend:release-${GITHUB_REF##*/}
+          docker push ${{ secrets.DOCKER_HUB_USERNAME }}/backend:release-${GITHUB_REF##*/}
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}

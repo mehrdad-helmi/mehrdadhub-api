@@ -1,6 +1,7 @@
 # compiled output
 /dist
 /node_modules
+/build
 
 # Logs
 logs
@@ -44,3 +45,5 @@ tempbid-openapi-v1.json
 # Prisma auto generated schema
 /prisma/schema.prisma
 /documentation/
+!/prisma/schema-draft.prisma
+/build/

@@ -11,13 +11,14 @@
     "start": "nest start",
     "start:dev": "npm run prisma:push && dotenv -e .env.development -- nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "pm2-runtime start ecosystem.config.js",
     "prisma:generate": "dotenv -e .env.development -- npx prisma-import --force && node process-schema.js && npx prisma generate",
     "prisma:push": "npm run prisma:generate && dotenv -e .env.development -- npx prisma db push",
     "prisma:migrate": "npm run prisma:generate && dotenv -e .env.development -- npx prisma migrate dev",
     "prisma:pull": "dotenv -e .env.development -- npx prisma db pull",
     "prisma:upgrade": "npm i -D prisma@latest && npm i @prisma/client@latest",
     "prisma:studio": "dotenv -e .env.development -- npx prisma studio",
+    "prisma:prod":"npx prisma-import --force && node process-schema.js && npx prisma db push", 
     "doc": "npx @compodoc/compodoc",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
@@ -115,6 +116,5 @@
       "output": "./prisma/schema-draft.prisma",
       "schemas": "./prisma/models/*.prisma"
     }
-  },
-  "packageManager": "yarn@1.22.21+sha1.1959a18351b811cdeedbd484a8f86c3cc3bbaf72"
+  }
 }

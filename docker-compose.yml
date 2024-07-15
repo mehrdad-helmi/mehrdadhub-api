@@ -1,0 +1,12 @@
+name: mehrdadhub-api
+
+services:
+  backend:
+    image: mehrdadhub-api-dev
+    ports:
+      - "5050:5050"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:

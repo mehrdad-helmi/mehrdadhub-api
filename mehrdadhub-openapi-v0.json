@@ -212,7 +212,7 @@
 	"info": {
 		"title": "MehrdadHub API",
 		"description": "This is documentation for MehrdadHub rest API service",
-		"version": "0.1.0",
+		"version": "0.2.2",
 		"contact": {}
 	},
 	"tags": [],
