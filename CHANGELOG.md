@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.3.1
+
+### Patch Changes
+
+- 100382d: Some useful information added in connection-test api
+
 ## 0.3.0
 
 ### Minor Changes
