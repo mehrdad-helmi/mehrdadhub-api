@@ -5,6 +5,10 @@ import { ConfigService } from '@nestjs/config';
 export class AppService {
   constructor(private readonly configService: ConfigService) {}
   public connectionTest(){
-    return `Welcome to the Mehrdadhub API (version@${this.configService.get('minorVersion')} 😊`;
+    return {
+      greeting:'Welcome to the Mehrdadhub API 😊',
+      apiVersion:this.configService.get('minorVersion'),
+      environment:this.configService.get('NODE_ENV')
+    };
   }
 }
