@@ -12,24 +12,28 @@ jobs:
 
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Install dependencies
         run: npm install
 
-      - name: Create and publish a changeset
-        run: |
-          npx changeset version
-          git add .
-          git commit -m "Version Packages"
-          git push origin ${{ github.ref }}
+      - name: Version Bump
+        run: npx changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create and publish a changeset2
+        uses: EndBug/add-and-commit@v9
+        with:
+          author_name: GithubAction
+          author_email: mehrdad.redhat@gmail.com
+          message: "auto: Version bumped by GitHub action"
+          push: origin ${{ github.ref }}
           
       - name: Get version from package.json
         id: get_version
