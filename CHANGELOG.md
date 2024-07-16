@@ -1,5 +1,14 @@
 # mehrdadhub-api
 
+## 0.2.3
+
+### Patch Changes
+
+- 96f541b: All CI/CD pipeline implemented
+- 7dc6e61: console.log removed
+- 7c6a4f5: Version commit step changed in Github Action
+- f47f89c: Some script for CI/CD added
+
 ## 0.2.2
 
 ### Patch Changes
