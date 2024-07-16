@@ -2,7 +2,11 @@ name: mehrdadhub-api
 
 services:
   backend:
-    image: mehrdadhub-api-dev
+    image: registry.hamdocker.ir/redhat-crew/mehrdadhub-api:${BACKEND_VERSION}
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      DATABASE_URL: ${DATABASE_URL}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
     ports:
       - "5050:5050"
     networks:

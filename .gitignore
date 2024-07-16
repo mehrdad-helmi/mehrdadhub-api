@@ -40,7 +40,7 @@ lerna-debug.log*
 .env.*
 
 # Doc generated file
-tempbid-openapi-v1.json
+tempbid-openapi-*.json
 
 # Prisma auto generated schema
 /prisma/schema.prisma

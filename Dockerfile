@@ -17,13 +17,6 @@ RUN npm ci
 # Copy the rest of the application code to the working directory.
 COPY --chown=node:node . .
 
-ENV NODE_ENV=production
-ENV DATABASE_URL="postgresql://redhat:09194215237@host.docker.internal:5432/mehrdadhub-db?schema=public"
-ENV JWT_ACCESS_SECRET="D7@pGk*1#Lz&Q8%yWx!z4^Yf3@UvN9lS#2Tj5^Pb@V6%mR"
-
-# Run prisma generates
-RUN npm run prisma:prod
-
 # Build the application.
 RUN npm run build
 
@@ -51,6 +44,7 @@ COPY --chown=node:node --from=build /usr/src/app/build ./build
 
 # Expose the application port.
 EXPOSE 5050
+EXPOSE 4040
 
 # Run the application with PM2 using the ecosystem file.
-CMD ["pm2-runtime", "start", "ecosystem.config.js"]
+CMD ["npm", "run", "start:prod"]

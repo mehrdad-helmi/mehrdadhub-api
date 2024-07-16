@@ -4,7 +4,7 @@ import * as packageJson from '../../package.json';
 export default (): ConfigObject => {
 	const appConfigs = {
 		isProduction: process.env.NODE_ENV === 'production',
-		port: 5050,
+		PORT: 5050,
 		majorVersion: packageJson.version.split('.')[0],
 		minorVersion: packageJson.version,
 	};

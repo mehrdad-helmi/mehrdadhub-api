@@ -1,0 +1,24 @@
+name: Backend Production Deployment
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Repository
+        run: echo ${{ secrets.DOCKER_REPO_ACCESS_TOKEN }} | docker login ${{ vars.DOCKER_REPO_HOST }} -u ${{ secrets.DOCKER_REPO_USERNAME }} --password-stdin
+
+      - name: Get version from package.json
+        id: get_version
+        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
+
+      - name: Deploy to Production
+        run: ssh redhat@37.32.7.71 -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@your-staging-server-ip 'cd ~app/prod/api && BACKEND_VERSION=${{ env.VERSION }} docker-compose pull && BACKEND_VERSION=${{ env.VERSION }} docker-compose up -d'

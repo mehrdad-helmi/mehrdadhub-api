@@ -31,7 +31,7 @@ async function bootstrap() {
   /**
    * Set a port to serve the application
    */
-  const port = configService.get('port');
+  const appPort = configService.get('PORT');
   
   /**
    * Set application's current version as endpoint's prefix example:/v1
@@ -71,7 +71,6 @@ async function bootstrap() {
    * Start listening to server
    * Real magic starts from here :)
    */
-  const appPort = process.env.NODE_ENV === 'production' ? 80 : port;
   await app.listen(appPort);
   
   console.log(

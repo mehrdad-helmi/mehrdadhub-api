@@ -75,7 +75,7 @@ export class RequestLoggerMiddleware implements NestMiddleware {
 				write: (message: string) => {
 					if (
 						process.env.NODE_ENV === 'production' &&
-						req.url === '/v1/connection-test'
+						req.url.endsWith('connection-test')
 					)
 						return;
 					if (res.statusCode >= 400) this.errorLogger.error(message.trim());

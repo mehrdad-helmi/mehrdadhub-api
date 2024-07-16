@@ -1,13 +1,13 @@
 module.exports = {
 	apps: [
 		{
-			name: 'mehrdadhub-staging-api',
+			name: `mehrdadhub-${process.env.NODE_ENV.toLowerCase()}-api`,
 			script: './build/main.js',
 			env: {
-				NODE_ENV: 'development',
-				DATABASE_URL:
-					'postgresql://redhat:09194215237@host.docker.internal:5432/mehrdadhub-db?schema=public',
-				JWT_ACCESS_SECRET: 'D7@pGk*1#Lz&Q8%yWx!z4^Yf$3@UvN9lS#2$Tj5^Pb@V6%mR',
+				NODE_ENV: process.env.NODE_ENV,
+				DATABASE_URL: process.env.DATABASE_URL,
+				JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
+				PORT: process.env.PORT
 			},
 		},
 	],
