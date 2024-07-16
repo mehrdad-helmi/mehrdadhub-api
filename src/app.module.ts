@@ -1,6 +1,6 @@
 import {
 	RequestLoggerMiddleware,
-	ResponseTransformInterceptor,
+	ResponseTransformInterceptor, VersionHeaderInterceptor,
 } from '@mehrdadhub/common';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ThrottlerGuard, ThrottlerModule }        from '@nestjs/throttler';
@@ -42,6 +42,10 @@ import { ProvidersModule } from './providers/providers.module';
 		{
 			provide: APP_INTERCEPTOR,
 			useClass: ResponseTransformInterceptor,
+		},
+		{
+			provide: APP_INTERCEPTOR,
+			useClass: VersionHeaderInterceptor,
 		},
 		{
 			provide: APP_GUARD,
