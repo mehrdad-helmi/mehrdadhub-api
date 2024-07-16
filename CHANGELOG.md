@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.2.6
+
+### Patch Changes
+
+- 669b2f1: Another minor GitHub issue solved
+
 ## 0.2.5
 
 ### Patch Changes
