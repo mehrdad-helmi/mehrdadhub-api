@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.2.4
+
+### Patch Changes
+
+- d0009f9: dockerfile changed to solve prisma issue
+
 ## 0.2.3
 
 ### Patch Changes
