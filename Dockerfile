@@ -17,6 +17,8 @@ RUN npm ci
 # Copy the rest of the application code to the working directory.
 COPY --chown=node:node . .
 
+RUN npm run prisma:generate
+
 # Build the application.
 RUN npm run build
 
@@ -41,6 +43,7 @@ COPY --chown=node:node --from=build /usr/src/app/ecosystem.config.js .
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node --from=build /usr/src/app/package.json .
 COPY --chown=node:node --from=build /usr/src/app/build ./build
+COPY --chown=node:node --from=build /usr/src/app/prisma/schema.prisma ./prisma/schema.prisma
 
 # Expose the application port.
 EXPOSE 5050

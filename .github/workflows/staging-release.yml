@@ -19,9 +19,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Version Bump
         run: npx changeset version
         env:
@@ -30,8 +27,8 @@ jobs:
       - name: Create and publish a changeset2
         uses: EndBug/add-and-commit@v9
         with:
-          author_name: GithubAction
-          author_email: mehrdad.redhat@gmail.com
+          author_name: "GithubAction"
+          author_email: "mehrdad.redhat@gmail.com"
           message: "auto: Version bumped by GitHub action"
           push: origin ${{ github.ref }}
           
