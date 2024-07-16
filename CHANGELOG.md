@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.3.0
+
+### Minor Changes
+
+- 14485c0: API version added to response header
+
 ## 0.2.6
 
 ### Patch Changes
