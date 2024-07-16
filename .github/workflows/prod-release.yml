@@ -21,4 +21,7 @@ jobs:
         run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
 
       - name: Deploy to Production
-        run: ssh redhat@37.32.7.71 -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@your-staging-server-ip 'cd ~app/prod/api && BACKEND_VERSION=${{ env.VERSION }} docker-compose pull && BACKEND_VERSION=${{ env.VERSION }} docker-compose up -d'
+        env:
+          HOSTNAME: ${{secrets.SERVER_SSH_HOST}}
+          USER_NAME: ${{secrets.SERVER_USER_NAME}}
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${USER_NAME}@${HOSTNAME} 'cd app/prod/api && BACKEND_VERSION=${{ env.VERSION }} docker-compose pull && BACKEND_VERSION=${{ env.VERSION }} docker-compose up -d'
