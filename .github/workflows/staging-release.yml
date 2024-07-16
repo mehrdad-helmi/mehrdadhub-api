@@ -11,43 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Version Bump
-        run: npx changeset version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create and publish a changeset2
-        uses: EndBug/add-and-commit@v9
-        with:
-          author_name: "GithubAction"
-          author_email: "mehrdad.redhat@gmail.com"
-          message: "auto: Version bumped by GitHub action"
-          push: origin ${{ github.ref }}
-          
-      - name: Get version from package.json
-        id: get_version
-        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
-
-      - name: Build Docker image
-        run: docker build -t mehrdadhub-api:${{ env.VERSION }} .
-
-      - name: Log in to Docker Repository
-        run: echo ${{ secrets.DOCKER_REPO_ACCESS_TOKEN }} | docker login ${{ vars.DOCKER_REPO_HOST }} -u ${{ secrets.DOCKER_REPO_USERNAME }} --password-stdin
-
-      - name: Push Docker image to registry
-        run: docker tag mehrdadhub-api:${{ env.VERSION }} ${{ vars.DOCKER_REPO_HOST }}/mehrdadhub-api:${{ env.VERSION }} && docker push ${{ vars.DOCKER_REPO_HOST }}/mehrdadhub-api:${{ env.VERSION }}
-
       - name: Add SSH key
         run: |
           mkdir -p ~/.ssh
@@ -58,4 +21,4 @@ jobs:
         env:
           HOSTNAME: ${{secrets.SERVER_SSH_HOST}}
           USER_NAME: ${{secrets.SERVER_USER_NAME}}
-        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${USER_NAME}@${HOSTNAME} 'cd app/staging/api && BACKEND_VERSION=${{ env.VERSION }} docker-compose pull && BACKEND_VERSION=${{ env.VERSION }} docker-compose up -d'
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${USER_NAME}@${HOSTNAME} 'cd app/staging/api && BACKEND_VERSION=${{ env.VERSION }} docker compose pull && BACKEND_VERSION=${{ env.VERSION }} docker compose up -d'

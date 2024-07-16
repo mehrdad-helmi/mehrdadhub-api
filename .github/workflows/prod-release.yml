@@ -24,4 +24,4 @@ jobs:
         env:
           HOSTNAME: ${{secrets.SERVER_SSH_HOST}}
           USER_NAME: ${{secrets.SERVER_USER_NAME}}
-        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${USER_NAME}@${HOSTNAME} 'cd app/prod/api && BACKEND_VERSION=${{ env.VERSION }} docker-compose pull && BACKEND_VERSION=${{ env.VERSION }} docker-compose up -d'
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${USER_NAME}@${HOSTNAME} 'cd app/prod/api && BACKEND_VERSION=${{ env.VERSION }} docker compose pull && BACKEND_VERSION=${{ env.VERSION }} docker compose up -d'
