@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.2.5
+
+### Patch Changes
+
+- eae50f0: Github action deploying step issue solved
+
 ## 0.2.4
 
 ### Patch Changes
