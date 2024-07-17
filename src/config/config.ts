@@ -7,6 +7,7 @@ export default (): ConfigObject => {
 		PORT: 5050,
 		majorVersion: packageJson.version.split('.')[0],
 		minorVersion: packageJson.version,
+		DOMAIN: 'http://localhost:5050'
 	};
 	
 	const secretConfigs = {

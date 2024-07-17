@@ -13,4 +13,6 @@ asdasd.mjsasd
 .prettierrc
 CHANGELOG.md
 README.md
-docker-compose.yml
+server-files
+.env
+template.env

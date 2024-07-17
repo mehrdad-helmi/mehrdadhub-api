@@ -47,3 +47,5 @@ tempbid-openapi-*.json
 /documentation/
 !/prisma/schema-draft.prisma
 /build/
+/server-files/
+mehrdadhub-openapi-v0.json

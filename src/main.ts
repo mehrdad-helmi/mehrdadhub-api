@@ -26,6 +26,7 @@ async function bootstrap() {
     app,
     configService.get('minorVersion')!,
     configService.get('majorVersion')!,
+    configService.get('DOMAIN')!,
   );
   
   /**

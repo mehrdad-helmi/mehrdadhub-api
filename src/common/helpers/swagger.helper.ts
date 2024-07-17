@@ -11,13 +11,13 @@ import * as fs from 'fs/promises';
  * @param minorVersion
  * @param majorVersion
  */
-function swaggerConfig(minorVersion: string, majorVersion: string) {
+function swaggerConfig(minorVersion: string, majorVersion: string,domain:string) {
 	// TODO: get these configs from the config folder
 	return new DocumentBuilder()
 		.setTitle('MehrdadHub API')
 		.setDescription('This is documentation for MehrdadHub rest API service')
 		.setVersion(minorVersion || 'api version not provided!')
-		.addServer(`http://localhost:5050/v${majorVersion}`)
+		.addServer(`${domain}/v${majorVersion}`)
 		.addBearerAuth()
 		.build();
 }
@@ -38,15 +38,17 @@ function swaggerOptions(): SwaggerDocumentOptions {
  * @param app
  * @param minorVersion
  * @param majorVersion
+ * @param domain
  */
 export function attachSwagger(
 	app: INestApplication,
 	minorVersion: string,
 	majorVersion: string,
+	domain: string,
 ) {
 	const document = SwaggerModule.createDocument(
 		app,
-		swaggerConfig(minorVersion, majorVersion),
+		swaggerConfig(minorVersion, majorVersion,domain),
 		swaggerOptions(),
 	);
 	SwaggerModule.setup('documentation', app, document);
