@@ -1,5 +1,12 @@
 # mehrdadhub-api
 
+## 0.3.2
+
+### Patch Changes
+
+- e015c81: test GitHub action
+- 53c3b48: some docker configs changed and docker compose config removed from repository
+
 ## 0.3.1
 
 ### Patch Changes
