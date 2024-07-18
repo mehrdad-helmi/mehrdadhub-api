@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.3.7
+
+### Patch Changes
+
+- 1b9b611: auth strategy changed to github token
+
 ## 0.3.6
 
 ### Patch Changes
