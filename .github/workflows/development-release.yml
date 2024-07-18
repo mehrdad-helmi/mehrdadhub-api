@@ -36,6 +36,7 @@ jobs:
     needs: change-check
     if: needs.change-check.outputs.hasChangeset == 'yes'
     permissions:
+      repository: write
       contents: read
       packages: write
       attestations: write
@@ -64,6 +65,8 @@ jobs:
           author_email: "mehrdad.redhat@gmail.com"
           message: "auto: Version bumped by GitHub action"
           push: origin ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get version from package.json
         id: get_version
