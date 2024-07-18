@@ -6,8 +6,7 @@ on:
       - develop
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: mehrdadhub-api
+  IMAGE_NAME: ${{ env.IMAGE_NAME }}
 
 jobs:
   change-check:
@@ -59,41 +58,22 @@ jobs:
           author_email: "mehrdad.redhat@gmail.com"
           message: "auto: Version bumped by GitHub action"
           push: origin ${{ github.ref }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get version from package.json
         id: get_version
         run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Docker image
+        run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.VERSION }} .
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+      - name: Log in to Docker Repository
+        run: echo ${{ secrets.DOCKER_REPO_ACCESS_TOKEN }} | docker login ${{ vars.DOCKER_REPO_HOST }} -u ${{ secrets.DOCKER_REPO_USERNAME }} --password-stdin
 
-      - name: Build and push Docker image
-        id: push
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ env.VERSION }}
-          labels: ${{ steps.meta.outputs.labels }}
-          
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
-          subject-digest: ${{ steps.push.outputs.digest }}
-          push-to-registry: true
+      - name: Tag Docker image
+        run: docker tag ${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+
+      - name: Push Docker image to registry
+        run: docker push ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
 
       - name: Add SSH key
         run: |
@@ -109,4 +89,4 @@ jobs:
 
       - uses: iarekylew00t/crane-installer@v1
       - name: Change Remote Image Tag to -beta
-        run: crane tag ${{ env.REGISTRY }}/mehrdadhub-api:${{ env.VERSION }} ${{ env.VERSION }}-beta && crane delete ${{ env.REGISTRY }}/mehrdadhub-api:${{ env.VERSION }}
+        run: crane tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ env.VERSION }}-beta && crane delete ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
