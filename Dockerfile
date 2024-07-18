@@ -1,10 +1,10 @@
-LABEL org.opencontainers.image.source=https://github.com/mehrdad-redhat/mehrdadhub-api
 ###################
 # BUILD FOR PRODUCTION
 ###################
 
 # Use the official Node.js 20 image.
 FROM node:20-alpine AS build
+LABEL "org.opencontainers.image.source"="https://github.com/mehrdad-redhat/mehrdadhub-api"
 
 # Create and set the working directory.
 WORKDIR /usr/src/app
@@ -34,6 +34,7 @@ USER node
 ###################
 
 FROM node:20-alpine AS production
+LABEL "org.opencontainers.image.source"="https://github.com/mehrdad-redhat/mehrdadhub-api"
 
 # Install PM2 globally
 RUN npm install -g pm2
