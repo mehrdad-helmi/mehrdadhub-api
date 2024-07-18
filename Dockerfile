@@ -1,3 +1,4 @@
+LABEL org.opencontainers.image.source=https://github.com/mehrdad-redhat/mehrdadhub-api
 ###################
 # BUILD FOR PRODUCTION
 ###################
