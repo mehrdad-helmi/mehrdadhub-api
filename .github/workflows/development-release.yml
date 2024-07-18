@@ -23,22 +23,21 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install changeset
-        run: npm install changeset -D
-
+      - name: GitHub Action for npx
+        uses: mikeal/npx@1.0.0
+      
       - name: Get changeset status
         id: changeset-status
-        run: |
-          changeset status
+        run: npx changeset status
         continue-on-error: true
 
       - name: Set output if changeset status failed
         id: set-output
         run: |
           if [[ $? -eq 1 ]]; then
-            echo "false" >> "$GITHUB_OUTPUT"
+            echo "hasChangeset=false" >> "$GITHUB_OUTPUT"
           else
-            echo "true" >> "$GITHUB_OUTPUT"
+            echo "hasChangeset=true" >> "$GITHUB_OUTPUT"
           fi
           
   build-and-deploy:
@@ -54,11 +53,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install changeset
-        run: npm install changeset -D
-
+      - name: GitHub Action for npx
+        uses: mikeal/npx@1.0.0
+    
       - name: Version Bump
-        run: changeset version
+        run: npx changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
