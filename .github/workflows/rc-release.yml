@@ -110,5 +110,5 @@ jobs:
         
       - uses: iarekylew00t/crane-installer@v1
       - name: Add -rc to Remote Image Tag
-        run: echo ${{ secrets.DOCKER_REPO_ACCESS_TOKEN }} | crane auth login ${{ vars.DOCKER_REPO_HOST }} --username "${{ secrets.DOCKER_REPO_USERNAME }}" --password-stdin \
+        run: echo ${{ secrets.DOCKER_REPO_ACCESS_TOKEN }} | crane auth login ${{ vars.DOCKER_REPO_HOST }} --username "${{ secrets.DOCKER_REPO_USERNAME }}" --password-stdin && \
           crane tag ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-beta ${{ env.VERSION }}-rc
