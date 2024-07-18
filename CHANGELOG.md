@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.3.5
+
+### Patch Changes
+
+- b29b0e4: dockerfile labeled
+
 ## 0.3.4
 
 ### Patch Changes
