@@ -6,11 +6,7 @@ on:
       - develop
 
 env:
-<<<<<<< HEAD
   IMAGE_NAME: mehrdadhub-api
-=======
-  IMAGE_NAME: ${{ env.IMAGE_NAME }}
->>>>>>> d4dc58a16908b3c50cd1c51a3c11eab55444e7d3
 
 jobs:
   change-check:
@@ -93,8 +89,4 @@ jobs:
 
       - uses: iarekylew00t/crane-installer@v1
       - name: Change Remote Image Tag to -beta
-<<<<<<< HEAD
         run: crane tag ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ env.VERSION }}-beta && crane delete ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
-=======
-        run: crane tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ env.VERSION }}-beta && crane delete ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
->>>>>>> d4dc58a16908b3c50cd1c51a3c11eab55444e7d3
