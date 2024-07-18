@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.3.6
+
+### Patch Changes
+
+- 879b210: dockerfile issue solved
+
 ## 0.3.5
 
 ### Patch Changes
