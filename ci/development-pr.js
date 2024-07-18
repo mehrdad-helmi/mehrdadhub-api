@@ -1,7 +1,4 @@
-/* eslint-disable */
-
 const { exec } = require('child_process');
-const os = require('os');
 
 // Function to execute shell commands
 const runCommand = (command) => {
