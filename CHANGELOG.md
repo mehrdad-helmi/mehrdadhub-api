@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.3.8
+
+### Patch Changes
+
+- efe7c39: revert github action changes
+
 ## 0.3.7
 
 ### Patch Changes
