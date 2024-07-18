@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-and-publish,change-check]
     if: needs.change-check.outputs.hasChangeset == 'no'
-    environment:
+    env:
       VERSION: ${{ needs.build-and-publish.outputs.version }}
     steps:
       - uses: iarekylew00t/crane-installer@v1      

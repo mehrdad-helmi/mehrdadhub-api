@@ -89,4 +89,4 @@ jobs:
 
       - uses: iarekylew00t/crane-installer@v1
       - name: Change Remote Image Tag to -beta
-        run: crane tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ env.VERSION }}-beta && crane delete ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+        run: crane tag ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ env.VERSION }}-beta && crane delete ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
