@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.3.4
+
+### Patch Changes
+
+- 5450b78: ci: image name changed
+
 ## 0.3.3
 
 ### Patch Changes
