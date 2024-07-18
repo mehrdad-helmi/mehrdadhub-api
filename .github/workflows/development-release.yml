@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - develop
-      - release-*
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,11 +18,11 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install changeset
+        run: npm install changeset -D
 
       - name: Version Bump
-        run: npx changeset version
+        run: changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -45,8 +44,11 @@ jobs:
       - name: Log in to Docker Repository
         run: echo ${{ secrets.DOCKER_REPO_ACCESS_TOKEN }} | docker login ${{ vars.DOCKER_REPO_HOST }} -u ${{ secrets.DOCKER_REPO_USERNAME }} --password-stdin
 
+      - name: Tag Docker image
+        run: docker tag mehrdadhub-api:${{ env.VERSION }} ${{ vars.DOCKER_REPO_HOST }}/mehrdadhub-api:${{ env.VERSION }}
+        
       - name: Push Docker image to registry
-        run: docker tag mehrdadhub-api:${{ env.VERSION }} ${{ vars.DOCKER_REPO_HOST }}/mehrdadhub-api:${{ env.VERSION }} && docker push ${{ vars.DOCKER_REPO_HOST }}/mehrdadhub-api:${{ env.VERSION }}
+        run: docker push ${{ vars.DOCKER_REPO_HOST }}/mehrdadhub-api:${{ env.VERSION }}
 
       - name: Add SSH key
         run: |
@@ -59,3 +61,7 @@ jobs:
           HOSTNAME: ${{secrets.SERVER_SSH_HOST}}
           USER_NAME: ${{secrets.SERVER_USER_NAME}}
         run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${USER_NAME}@${HOSTNAME} 'cd app/staging/api && BACKEND_VERSION=${{ env.VERSION }} docker compose pull && BACKEND_VERSION=${{ env.VERSION }} docker compose up -d'
+      
+      - name: Change Remote Image Tag to -beta
+        uses: iarekylew00t/crane-installer@v1
+        run: crane tag ${{ vars.DOCKER_REPO_HOST }}/mehrdadhub-api:${{ env.VERSION }} ${{ env.VERSION }}-beta && crane delete ${{ vars.DOCKER_REPO_HOST }}/mehrdadhub-api:${{ env.VERSION }}
