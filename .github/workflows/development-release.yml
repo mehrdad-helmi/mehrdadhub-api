@@ -23,9 +23,9 @@ jobs:
         with:
           node-version: 20
 
-      - name: GitHub Action for npx
-        uses: mikeal/npx@1.0.0
-      
+      - name: Install changeset
+        run: npm ci --include "dev"
+
       - name: Get changeset status
         id: changeset-status
         run: npx changeset status
@@ -53,9 +53,9 @@ jobs:
         with:
           node-version: 20
 
-      - name: GitHub Action for npx
-        uses: mikeal/npx@1.0.0
-    
+      - name: Install changeset
+        run: npm ci --include "dev"
+
       - name: Version Bump
         run: npx changeset version
         env:
