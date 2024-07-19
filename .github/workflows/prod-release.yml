@@ -20,6 +20,12 @@ jobs:
         id: get_version
         run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
 
+      - name: Add SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          
       - name: Deploy to Production
         env:
           HOSTNAME: ${{secrets.SERVER_SSH_HOST}}

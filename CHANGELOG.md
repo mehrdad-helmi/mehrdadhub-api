@@ -1,5 +1,54 @@
 # mehrdadhub-api
 
+## 0.3.9
+
+### Patch Changes
+
+- 3a33266: new ci scripts added
+
+## 0.3.8
+
+### Patch Changes
+
+- efe7c39: revert github action changes
+
+## 0.3.7
+
+### Patch Changes
+
+- 1b9b611: auth strategy changed to github token
+
+## 0.3.6
+
+### Patch Changes
+
+- 879b210: dockerfile issue solved
+
+## 0.3.5
+
+### Patch Changes
+
+- b29b0e4: dockerfile labeled
+
+## 0.3.4
+
+### Patch Changes
+
+- 5450b78: ci: image name changed
+
+## 0.3.3
+
+### Patch Changes
+
+- 4b884d4: Github container registery added
+
+## 0.3.2
+
+### Patch Changes
+
+- e015c81: test GitHub action
+- 53c3b48: some docker configs changed and docker compose config removed from repository
+
 ## 0.3.1
 
 ### Patch Changes

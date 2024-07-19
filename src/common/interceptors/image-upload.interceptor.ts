@@ -6,7 +6,6 @@ import { memoryStorage } from 'multer';
 export function imageUploadInterceptor() {
 	return FileInterceptor('file', {
 		storage: memoryStorage(),
-		// eslint-disable-next-line consistent-return
 		fileFilter: (_req, file, callback) => {
 			if (!file.originalname.match(/\.(jpg|jpeg|png)$/))
 				// Reject file if it's not jpg/jpeg/png
