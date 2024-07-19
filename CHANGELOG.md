@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.3.9
+
+### Patch Changes
+
+- 3a33266: new ci scripts added
+
 ## 0.3.8
 
 ### Patch Changes
