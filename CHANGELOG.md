@@ -1,5 +1,15 @@
 # mehrdadhub-api
 
+## 0.4.0
+
+### Minor Changes
+
+- ecabf6d: Final production deployment action added
+
+### Patch Changes
+
+- ecabf6d: Hotfix action and scripts added
+
 ## 0.3.9
 
 ### Patch Changes
