@@ -1,0 +1,45 @@
+name: Start Production Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Latest release branch'
+        required: true
+        default: 'release-*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Get version from package.json
+        id: get_version
+        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
+
+      - name: Checkout master branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Merge release branch into master
+        run: git merge --no-ff ${{ github.event.inputs.branch }}
+
+      - name: Tag the merge
+        run: git tag -a v${{ env.VERSION }} -m "Release v${{ env.VERSION }}"
+
+      - name: Push changes to remote
+        run:  git push origin master --follow-tags
+
+      - name: Delete release branch from remote
+        run: git push origin --delete ${{ github.event.inputs.branch }}
