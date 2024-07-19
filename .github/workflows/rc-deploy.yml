@@ -1,9 +1,12 @@
-name: Backend Develop Deployment
+name: Release Candidate Deployment
 
 on:
   push:
     branches:
-      - develop
+      - release-*
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   IMAGE_NAME: mehrdadhub-api
@@ -20,17 +23,17 @@ jobs:
       - name: Check for existing changesets
         id: check-md-files
         run: |
-            md_files=$(find .changeset -name '*.md' ! -name 'README.md')
-            if [ -z "$md_files" ]; then
-              echo "No changeset files found."
-              echo "hasChangeset=no" >> "$GITHUB_OUTPUT"
-            else
-              echo "Found changeset files:"
-              echo "$md_files"
-              echo "hasChangeset=yes" >> "$GITHUB_OUTPUT"
-            fi
-          
-  build-and-deploy:
+          md_files=$(find .changeset -name '*.md' ! -name 'README.md')
+          if [ -z "$md_files" ]; then
+            echo "No changeset files found."
+            echo "hasChangeset=no" >> "$GITHUB_OUTPUT"
+          else
+            echo "Found changeset files:"
+            echo "$md_files"
+            echo "hasChangeset=yes" >> "$GITHUB_OUTPUT"
+          fi
+  
+  build-and-publish:
     runs-on: ubuntu-latest
     needs: change-check
     if: needs.change-check.outputs.hasChangeset == 'yes'
@@ -70,10 +73,10 @@ jobs:
         run: echo ${{ secrets.DOCKER_REPO_ACCESS_TOKEN }} | docker login ${{ vars.DOCKER_REPO_HOST }} -u ${{ secrets.DOCKER_REPO_USERNAME }} --password-stdin
 
       - name: Tag Docker image
-        run: docker tag ${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+        run: docker tag ${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-rc
 
       - name: Push Docker image to registry
-        run: docker push ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+        run: docker push ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-rc
 
       - name: Add SSH key
         run: |
@@ -85,8 +88,28 @@ jobs:
         env:
           HOSTNAME: ${{secrets.SERVER_SSH_HOST}}
           USER_NAME: ${{secrets.SERVER_USER_NAME}}
-        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${USER_NAME}@${HOSTNAME} 'cd app/staging/api && BACKEND_VERSION=${{ env.VERSION }} docker compose pull && BACKEND_VERSION=${{ env.VERSION }} docker compose up -d'
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${USER_NAME}@${HOSTNAME} 'cd app/staging/api && BACKEND_VERSION=${{ env.VERSION }}-rc docker compose pull && BACKEND_VERSION=${{ env.VERSION }}-rc docker compose up -d'
+  
+  change-remote-tag:
+    runs-on: ubuntu-latest
+    needs: [change-check]
+    if: needs.change-check.outputs.hasChangeset == 'no'
+    
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Get version from package.json
+        id: get_version
+        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
+        
+      - name: Log in to Docker Repository
+        run: echo ${{ secrets.DOCKER_REPO_ACCESS_TOKEN }} | docker login ${{ vars.DOCKER_REPO_HOST }} -u ${{ secrets.DOCKER_REPO_USERNAME }} --password-stdin
+        
       - uses: iarekylew00t/crane-installer@v1
-      - name: Change Remote Image Tag to -beta
-        run: crane tag ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ env.VERSION }}-beta && crane delete ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+      - name: Add -rc to Remote Image Tag
+        run: crane tag ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-beta ${{ env.VERSION }}-rc

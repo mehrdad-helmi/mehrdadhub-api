@@ -49,4 +49,3 @@ tempbid-openapi-*.json
 /build/
 /server-files/
 mehrdadhub-openapi-v0.json
-pipeline.md

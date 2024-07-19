@@ -27,9 +27,10 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "version:change": "npx changeset",
     "version:bump": "npx changeset version",
-    "ci:nfb": "node ci/new-feature-branch.js",
-    "ci:ffb": "node ci/development-pr.js",
-    "ci:nrb": "node ci/new-release-branch.js"
+    "ci:create-feature": "node ci/create-feature-branch.js" ,
+    "ci:feature-pr": "node ci/feature-pr.js" ,
+    "ci:create-hotfix": "node ci/create-hotfix-branch.js" ,
+    "ci:hotfix-pr": "node ci/hotfix-pr.js"
   },
   "dependencies": {
     "@changesets/cli": "^2.27.7",

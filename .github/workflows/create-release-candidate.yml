@@ -1,0 +1,32 @@
+name: Create Release Candidate
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create_release_branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          VERSION=$(npm pkg get version --workspaces=false | tr -d '"')
+          VERSION_MAJOR_MINOR=$(echo $VERSION | awk -F. '{print $1 "." $2}')
+          echo "VERSION=$VERSION_MAJOR_MINOR" >> $GITHUB_ENV
+
+      - name: Create new branch
+        run: |
+          BRANCH_NAME="release-${{ env.VERSION }}"
+          git checkout -b $BRANCH_NAME
+          git push origin $BRANCH_NAME
