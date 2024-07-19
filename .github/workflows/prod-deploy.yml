@@ -103,6 +103,19 @@ jobs:
           body: ${{ env.RELEASE_BODY }}
           draft: false
           prerelease: false
+          
+      - uses: actions/checkout@v4
+        with:
+          ref: develop
+          fetch-depth: 0
+      - name: Merge master into develop with no-ff
+        run: |
+          git fetch origin master
+          git merge --no-ff origin/master
+          git push origin develop
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
   
   just-deploy:
     runs-on: ubuntu-latest

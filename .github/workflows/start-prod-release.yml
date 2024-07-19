@@ -41,5 +41,11 @@ jobs:
       - name: Push changes to remote
         run:  git push origin master --follow-tags
 
+      - name: Merge release branch to develop
+        run: |
+          git checkout develop
+          git merge --no-ff ${{ github.event.inputs.branch }}
+          git push origin develop
+      
       - name: Delete release branch from remote
         run: git push origin --delete ${{ github.event.inputs.branch }}
