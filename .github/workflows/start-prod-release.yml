@@ -2,11 +2,6 @@ name: Start Production Release
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Latest release branch'
-        required: true
-        default: 'release-*'
 
 jobs:
   release:
@@ -16,7 +11,7 @@ jobs:
       - name: Checkout release branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.branch }}
+          ref: ${{ github.ref }}
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -33,7 +28,7 @@ jobs:
           ref: master
 
       - name: Merge release branch into master
-        run: git merge --no-ff origin/${{ github.event.inputs.branch }}
+        run: git merge --no-ff ${{ github.ref }}
 
       - name: Tag the merge
         run: git tag -a v${{ env.VERSION }} -m "Release v${{ env.VERSION }}"
@@ -44,10 +39,10 @@ jobs:
       - name: Merge release branch to develop
         run: |
           git checkout develop
-          git merge --no-ff origin/${{ github.event.inputs.branch }}
+          git merge --no-ff ${{ github.ref }}
           git push origin develop
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
       
       - name: Delete release branch from remote
-        run: git push origin --delete ${{ github.event.inputs.branch }}
+        run: git push origin --delete ${{ github.ref }}
