@@ -33,7 +33,7 @@ jobs:
           ref: master
 
       - name: Merge release branch into master
-        run: git merge --no-ff ${{ github.event.inputs.branch }}
+        run: git merge --no-ff origin/${{ github.event.inputs.branch }}
 
       - name: Tag the merge
         run: git tag -a v${{ env.VERSION }} -m "Release v${{ env.VERSION }}"
@@ -44,8 +44,10 @@ jobs:
       - name: Merge release branch to develop
         run: |
           git checkout develop
-          git merge --no-ff ${{ github.event.inputs.branch }}
+          git merge --no-ff origin/${{ github.event.inputs.branch }}
           git push origin develop
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
       
       - name: Delete release branch from remote
         run: git push origin --delete ${{ github.event.inputs.branch }}
