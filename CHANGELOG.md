@@ -1,5 +1,21 @@
 # mehrdadhub-api
 
+## 0.4.1
+
+### Patch Changes
+
+- c29a288: merging with develop after prod deploy and hotfix added
+
+## 0.4.0
+
+### Minor Changes
+
+- ecabf6d: Final production deployment action added
+
+### Patch Changes
+
+- ecabf6d: Hotfix action and scripts added
+
 ## 0.3.9
 
 ### Patch Changes

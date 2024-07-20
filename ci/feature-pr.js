@@ -29,7 +29,7 @@ const checkGitHubCLI = async () => {
 const createPullRequest = async (title) => {
 	try {
 		console.log(`⌛ Creating pull request with title: ${title}`);
-		await runCommand(`gh pr create --base development --title "${title}" --body "Feature development is finished, please review the PR and merge it with development."`);
+		await runCommand(`gh pr create --base develop --title "${title}" --body "Feature development is finished, please review the PR and merge it with development."`);
 		console.log('✅ Pull request created successfully.');
 	} catch (error) {
 		console.error(error);

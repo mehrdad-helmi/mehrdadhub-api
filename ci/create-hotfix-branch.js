@@ -10,22 +10,19 @@ const getVersion = () => {
 // Function to create and push the git branch
 const createAndPushBranch = async (version) => {
   const git = simpleGit();
-
-  // Extract the major and minor version
-  const [major, minor] = version.split('.');
-
+  
   // Branch name
-  const branchName = `release-${major}.${minor}`;
+  const branchName = `hotfix-${version}`;
 
   try {
     // Checkout develop branch
-    await git.checkout('develop');
+    await git.checkout('master');
 
     // Pull the latest changes from develop
-    await git.pull('origin', 'develop');
+    await git.pull('origin', 'master');
 
     // Create new branch
-    await git.checkoutBranch(branchName, 'develop');
+    await git.checkoutBranch(branchName, 'master');
 
     // Push the new branch to remote
     await git.push('origin', branchName);
