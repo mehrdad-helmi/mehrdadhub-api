@@ -24,7 +24,7 @@
 		}
 	},
 	"USER": {
-		"SUCCESSFUL_SIGNUP": "User has been successfully signed up",
+		"SUCCESSFUL_SIGNUP": "Welcome to MehrdadHub.",
 		"RESET_PASSWORD_CODE_SENT": "The reset password code has been sent to your email address.",
 		"RESET_CODE_NOT_FOUND": "You cannot reset your password at this time. Please try the forget password process again.",
 		"INVALID_OTP_CODE": "The otp code does not match the one sent to your email. Please try again.",
