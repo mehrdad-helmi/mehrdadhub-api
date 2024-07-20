@@ -20,24 +20,17 @@ jobs:
         id: get_version
         run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
 
-      - name: Checkout master branch
-        uses: actions/checkout@v4
-        with:
-          ref: master
-
-      - name: Merge release branch into master
-        run: git merge --no-ff origin/${{ github.ref_name }}
-
-      - name: Tag the merge
-        run: git tag -a v${{ env.VERSION }} -m "Release v${{ env.VERSION }}"
-
-      - name: Push changes to remote
-        run:  git push origin master --follow-tags
+      - name: Merge release branch to master and tag it
+        run: |
+          git checkout master
+          git merge --no-ff ${{ github.ref_name }}
+          git tag -a v${{ env.VERSION }} -m "Release v${{ env.VERSION }}"
+          git push origin master --follow-tags
 
       - name: Merge release branch to develop
         run: |
           git checkout develop
-          git merge --no-ff origin/${{ github.ref_name }}
+          git merge --no-ff ${{ github.ref_name }}
           git push origin develop
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
