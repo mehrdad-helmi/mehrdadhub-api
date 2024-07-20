@@ -17,6 +17,7 @@ env:
 jobs:
   change-check:
     runs-on: ubuntu-latest
+    if: startsWith(github.ref_name, 'release-')
     outputs:
       hasChangeset: ${{ steps.check-md-files.outputs.hasChangeset }}
     steps:

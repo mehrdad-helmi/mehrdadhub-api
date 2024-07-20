@@ -48,6 +48,10 @@ jobs:
       - name: Install changeset
         run: npm ci --include "dev"
 
+      - name: Get version from package.json
+        id: get_version
+        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
+
       - name: Create and publish a changeset
         id: changeset
         run: |
@@ -55,15 +59,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "auto(hotfix): Version bumped by GitHub action)
+          git commit -m "auto(hotfix): Version bumped by GitHub action"
           git tag -a v$(npm pkg get version --workspaces=false | tr -d '"') -m "Hotfix Release v${{ env.VERSION }}"
           git push origin ${{ github.ref }} --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get version from package.json
-        id: get_version
-        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
 
       - name: Build Docker image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.VERSION }} .
