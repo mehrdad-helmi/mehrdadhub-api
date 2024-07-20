@@ -1,5 +1,12 @@
 # mehrdadhub-api
 
+## 0.4.3
+
+### Patch Changes
+
+- 4d040f2: minor issue resolved on master
+- 0ef865d: Signup message changed
+
 ## 0.4.2
 
 ### Patch Changes
