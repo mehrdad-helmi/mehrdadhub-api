@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - release-*
+  create:
+    branches:
+      - release-*
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -113,3 +116,4 @@ jobs:
       - uses: iarekylew00t/crane-installer@v1
       - name: Add -rc to Remote Image Tag
         run: crane tag ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-beta ${{ env.VERSION }}-rc
+        continue-on-error: true
