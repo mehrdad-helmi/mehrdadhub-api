@@ -48,6 +48,10 @@ jobs:
       - name: Install changeset
         run: npm ci --include "dev"
 
+      - name: Get version from package.json
+        id: get_version
+        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
+
       - name: Create and publish a changeset
         id: changeset
         run: |
@@ -55,15 +59,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "auto(hotfix): Version bumped by GitHub action)
+          git commit -m "auto(hotfix): Version bumped by GitHub action"
           git tag -a v$(npm pkg get version --workspaces=false | tr -d '"') -m "Hotfix Release v${{ env.VERSION }}"
           git push origin ${{ github.ref }} --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get version from package.json
-        id: get_version
-        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
 
       - name: Build Docker image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.VERSION }} .
@@ -89,9 +89,11 @@ jobs:
           USER_NAME: ${{secrets.SERVER_USER_NAME}}
         run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${USER_NAME}@${HOSTNAME} 'cd app/prod/api && BACKEND_VERSION=${{ env.VERSION }} docker compose pull && BACKEND_VERSION=${{ env.VERSION }} docker compose up -d'
 
-      - name: Read CHANGELOG.md
-        id: changelog
-        run: echo "RELEASE_BODY=$(cat CHANGELOG.md)" >> $GITHUB_ENV
+      - name: Bump version and push tag
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ env.VERSION }}
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -100,21 +102,17 @@ jobs:
         with:
           tag_name: v${{ env.VERSION }}
           release_name: MehrdadHub API Release v${{ env.VERSION }}
-          body: ${{ env.RELEASE_BODY }}
+          body_path : CHANGELOG.md
           draft: false
           prerelease: false
           
-      - uses: actions/checkout@v4
+      - name: Merge release to develop
+        uses: devmasx/merge-branch@master
         with:
-          ref: develop
-          fetch-depth: 0
-      - name: Merge master into develop with no-ff
-        run: |
-          git fetch origin master
-          git merge --no-ff origin/master
-          git push origin develop
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          type: now
+          target_branch: develop
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          message: ${{ github.ref_name }} branch merged with develop for syncing latest changes.
         
   
   just-deploy:
@@ -152,10 +150,6 @@ jobs:
       - uses: iarekylew00t/crane-installer@v1
       - name: Tag Remote Image for Prod release
         run: crane tag ${{ vars.DOCKER_REPO_HOST }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}-rc ${{ env.VERSION }}
-      
-      - name: Read CHANGELOG.md
-        id: changelog
-        run: echo "RELEASE_BODY=$(cat CHANGELOG.md)" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -164,6 +158,6 @@ jobs:
         with:
           tag_name: v${{ env.VERSION }}
           release_name: MehrdadHub API Release v${{ env.VERSION }}
-          body: ${{ env.RELEASE_BODY }}
           draft: false
           prerelease: false
+          body_path : CHANGELOG.md
