@@ -7,7 +7,7 @@ export class AppService {
   constructor(private readonly configService: ConfigService) {}
   public connectionTest(){
     return {
-      greeting:'Welcome to the Mehrdadhub API 😊',
+      data:'Welcome to the Mehrdadhub API 😊',
       apiVersion:this.configService.get('minorVersion'),
       environment:this.configService.get('NODE_ENV'),
       serverTime:DateTime.now().toLocaleString(DateTime.DATETIME_HUGE_WITH_SECONDS)
