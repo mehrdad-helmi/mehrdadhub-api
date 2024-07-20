@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.4.2
+
+### Patch Changes
+
+- 69ab72f: Test rc deployment
+
 ## 0.4.1
 
 ### Patch Changes
