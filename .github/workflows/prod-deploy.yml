@@ -48,10 +48,6 @@ jobs:
       - name: Install changeset
         run: npm ci --include "dev"
 
-      - name: Get version from package.json
-        id: get_version
-        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
-
       - name: Create and publish a changeset
         id: changeset
         run: |
@@ -65,6 +61,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get version from package.json
+        id: get_version
+        run: echo "VERSION=$(npm pkg get version --workspaces=false | tr -d '\"')" >> $GITHUB_ENV
+        
       - name: Build Docker image
         run: docker build -t ${{ env.IMAGE_NAME }}:${{ env.VERSION }} .
 
