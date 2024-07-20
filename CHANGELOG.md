@@ -1,5 +1,11 @@
 # mehrdadhub-api
 
+## 0.4.4
+
+### Patch Changes
+
+- 89728f0: tag create added to prod deploy
+
 ## 0.4.3
 
 ### Patch Changes
